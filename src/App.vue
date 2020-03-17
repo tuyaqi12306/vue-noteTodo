@@ -6,9 +6,9 @@
 
 <style scoped>
 #app {
-  width: 700px;
   height: 100vh;
   padding: 10px;
-  margin: 5px auto;
+  /* width: 700px;
+  margin: 5px auto; */
 }
 </style>

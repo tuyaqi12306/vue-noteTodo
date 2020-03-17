@@ -1,6 +1,10 @@
 <template>
   <div class="editPage">
-    <Setting v-if="showSetting" :todo="todo"></Setting>
+    <Setting
+      v-if="showSetting"
+      @closeSetting="showSetting = false"
+      :todo="todo"
+    ></Setting>
     <div class="header-fix">
       <span class="left iconfont">&#xeb8f;</span>
       <span class="right">
@@ -13,7 +17,7 @@
     <div class="editContainer">
       <van-field
         :style="{ backgroundColor: todo.backgroundColor }"
-        v-model="todo.todoText"
+        v-model.trim="todo.todoText"
         autosize
         type="textarea"
         placeholder="记笔记..."
@@ -24,7 +28,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import "../font/iconfont.css";
 import Vue from "vue";
@@ -45,15 +48,15 @@ export default {
   },
   methods: {
     addNote() {
-      // let text = this.message.trim();
-      // if (text) {
-      //   this.$store.commit("addTodo", {
-      //     todoText: text,
-      //     showDeleteBox: false,
-      //     backgroundColor: "rgb(223, 250, 255)"
-      //   });
-      // }
-      // this.message = "";
+      if (!this.todo.todoText) {
+        this.$store.state.todos.pop();
+        // this.$store.commit("addTodo", {
+        //   id: this.id,
+        //   todoText: text,
+        //   showDeleteBox: false,
+        //   backgroundColor: "rgb(223, 250, 255)"
+        // });
+      }
       this.saveValueToLocal();
       this.$router.push({ path: "/" });
     },
@@ -67,17 +70,17 @@ export default {
     }
   },
   beforeCreate() {
-    const id = this.$route.params.id;
+    const id = Number(this.$route.params.id);
     const todos = this.$store.state.todos;
-    if (!todos.filter(it => it.id == id)[0]) {
+    if (!todos.filter(it => it.id === id)[0]) {
       this.$router.push({ path: "/" });
     }
   },
   computed: {
     todo() {
-      const id = this.$route.params.id;
+      const id = Number(this.$route.params.id);
       const todos = this.$store.state.todos;
-      return todos.find(it => it.id == id);
+      return todos.find(it => it.id === id);
     }
   }
 };

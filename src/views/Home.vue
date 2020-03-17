@@ -11,22 +11,22 @@
       <div class="title-name">便笺</div>
     </div>
     <form action="/">
-      <van-search
-        v-model="value"
-        placeholder="搜索..."
-      />
+      <van-search v-model="value" placeholder="搜索..." />
     </form>
     <ul>
       <!-- 带冒号的双引号里面可当作js表达式， 对象的属性也可以是表达式 -->
       <li
         v-for="(item, index) in showTodos"
         :key="item.id"
-        :style="{ 'background-color': item.backgroundColor, boxShadow: '0 0 20px ' + item.backgroundColor }"
+        :style="{
+          'background-color': item.backgroundColor,
+          boxShadow: '0 0 20px ' + item.backgroundColor
+        }"
       >
         <router-link :to="'/editing/' + item.id">
           <p>{{ item.todoText }}</p>
         </router-link>
-        <span class="iconfont delete" @click="showDeleteItem(index)"> &#xe601; </span>
+        <span class="iconfont delete" @click="showDeleteItem(index)">&#xe601;</span>
         <div class="deleteItemBox" v-if="item.showDeleteBox">
           <div class="confirmBox">
             <p>是否要删除此笔记？</p>
@@ -76,13 +76,10 @@ export default {
     }
   },
   methods: {
-    // onSearch(val) {
-    //   Toast(val);
-    // },
     newTodo() {
       const length = this.$store.state.todos.length;
       let newId;
-      if (length == 0) {
+      if (length === 0) {
         newId = 1;
       } else {
         newId = this.$store.state.todos[length - 1].id + 1;
@@ -104,7 +101,7 @@ export default {
       this.saveValueToLocal();
     },
     changedBgColor(index) {
-      if (index != 0) {
+      if (index !== 0) {
         this.itemBackgroundColor.background = "#fff";
       } else {
         this.itemBackgroundColor.background = "rgb(255,255,255,0)";
@@ -202,6 +199,9 @@ ul li {
   position: relative;
   /* border-style: insert; */
   background-color: rgb(205, 233, 255);
+  overflow:hidden; //超出的文本隐藏
+  text-overflow:ellipsis; //溢出用省略号显示
+  white-space:nowrap; //溢出不换行
 }
 .delete {
   display: none;

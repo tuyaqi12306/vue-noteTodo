@@ -5,7 +5,7 @@
         v-for="item in colorList"
         :key="item.backgroundColor"
         :class="{ active: todo.backgroundColor === item.backgroundColor }"
-        @click="todo.backgroundColor = item.backgroundColor"
+        @click="changeBackgroundColor(item)"
       >
         <input type="radio" name="bgcSeting" hidden />
       </label>
@@ -45,6 +45,10 @@ export default {
     // }
   },
   methods: {
+    changeBackgroundColor(item) {
+      this.todo.backgroundColor = item.backgroundColor;
+      this.$emit("closeSetting");
+    },
     showNoteList() {
       this.$router.push({ path: "/" });
     },
